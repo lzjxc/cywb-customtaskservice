@@ -31,29 +31,29 @@ public class Customtask {
     String workerName;
 
     String title;
+    String content;
     String industry;
+    String brand;
+    String kind;
+    String authLevel;
+    String remark;
 
-    @Column(name = "insight_input")
-    String insightInput;
+    @Column(name = "resource_url")
+    String resourceUrl;
 
-    @Column(name = "customtask_remark")
-    String customtaskRemark;
+    @Column(name = "task_url")
+    String taskUrl;
 
-    @Column(name = "audit_remark")
-    String auditRemark;
+    @Column(name = "final_url")
+    String finalUrl;
 
-    String status;
     String merchant;
     String field;
-
     @Column(name = "sub_category")
     String subCategory;
 
     String category;
     String source;
-
-    @Column(name = "file_url")
-    String fileUrl;
 
     @Column(name = "create_time")
     String createTime;
@@ -61,24 +61,8 @@ public class Customtask {
     @Column(name = "modify_time")
     String modifyTime;
 
-    @Column(name = "task_deadline")
-    String taskDeadline;
-
-    @Column(name = "task_gather_type")
-    String taskGatherType;
-
-    @Column(name = "task_gather_url")
-    String taskGatherUrl;
-
-    @Column(name = "final_product_url")
-    String finalProductUrl;
-
-    @Column(name = "be_template")
-    Boolean beTemplate;
-
-    @Column(name = "has_template")
-    Boolean hasTemplate;
-
+    String status;
+    String deadline;
     String available;
 
 }
