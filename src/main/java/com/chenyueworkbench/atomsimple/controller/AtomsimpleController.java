@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
@@ -67,12 +68,24 @@ public class AtomsimpleController {
         service.updateUrl(id, fileName);
     }
 
-    @RolesAllowed({ "ADMIN", "USER","SUPER" , "SUPERADMIN"})
-    @RequestMapping(value="/{atomsimpleId}/disable",method = RequestMethod.PUT)
-    public ResponseEntity<HashMap<String, Object>> void fileUpload( @PathVariable("atomsimpleId") String id) {
-        return ResponseEntity.ok(createReturnMap(service.disable(id)));
-        
+    @RolesAllowed({ "SUPER" ,"WORKERADMIN", "SUPERADMIN"})
+    @PutMapping(value="/atomsimpleId/{atomsimpleId}/worker_name/{workerName}")
+    public void UpdateWorkerName( @PathVariable("atomsimpleId") String id, @PathVariable("workerName") String workerName) {
+        service.updateWorker(id, workerName);
     }
+
+    @RolesAllowed({ "ADMIN", "SUPER", "SUPERADMIN"})
+    @PutMapping(value="/atomsimpleId/{atomsimpleId}/disable")
+    public ResponseEntity<HashMap<String, Object>> disableAtomsimple( @PathVariable("atomsimpleId") String id) {
+        return ResponseEntity.ok(createReturnMap(service.disable(id)));
+    }
+
+    // @RolesAllowed({ "ADMIN", "USER","SUPER" , "SUPERADMIN"})
+    // @RequestMapping(value="/{atomsimpleId}/disable",method = RequestMethod.PUT)
+    // public ResponseEntity<HashMap<String, Object>> void fileUpload( @PathVariable("atomsimpleId") String id) {
+    //     return ResponseEntity.ok(createReturnMap(service.disable(id)));
+        
+    // }
 
 
     // create

@@ -4,7 +4,7 @@ import java.util.Optional;
 import java.util.UUID;
 import java.util.stream.Collectors;
 import java.util.ArrayList;
-import java util.Comparator;
+import java.util.Comparator;
 import java.util.List;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -119,6 +119,16 @@ public class AtomsimpleService {
 		String message = String.format("%s, target id disabled!", atomsimpleId);
 		return message;
 	}
+
+	public void updateWorker(String atomsimpleId, String workerName){
+		Atomsimple atomsimple = repository.findById(atomsimpleId).get();
+		atomsimple.setWorkerName(workerName)
+				   .setModifyTime(generateLocalTimeShangHai());
+    	repository.save(atomsimple);
+		log.debug("Atomsimple update worker username is {}", getPreferredUsername());
+        simpleSourceBean.publishAtomsimpleChange(ActionEnum.UPDATED, atomsimple.getId());
+    }
+
 	// create
 	public Atomsimple create(Atomsimple atomsimple){
 		atomsimple.setId(UUID.randomUUID().toString())
