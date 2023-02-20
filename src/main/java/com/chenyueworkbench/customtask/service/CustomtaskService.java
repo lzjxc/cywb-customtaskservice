@@ -91,17 +91,39 @@ public class CustomtaskService {
         simpleSourceBean.publishCustomtaskChange(ActionEnum.UPDATED, customtask.getId());
     }
 
-
-	public void updateUrl(String customtaskId, String fileName){
+	public void updateResourceUrl(String customtaskId, String resourceUrl){
 		Customtask customtask = repository.findById(customtaskId).get();
-		String status = "3";
+		String status = "1";
 
-		customtask.setFileUrl(fileName)
-					  .setStatus(status)
-					  .setModifyTime(generateLocalTimeShangHai());
+		customtask.setResourceUrl(resourceUrl)
+					.setStatus(status)
+					.setModifyTime(generateLocalTimeShangHai());
     	repository.save(customtask);
         simpleSourceBean.publishCustomtaskChange(ActionEnum.UPDATED, customtaskId);
     }
+
+	public void updateTaskUrl(String customtaskId, String taskUrl){
+		Customtask customtask = repository.findById(customtaskId).get();
+		String status = "8";
+		customtask.setTaskUrl(taskUrl)
+					.setStatus(status)
+					.setModifyTime(generateLocalTimeShangHai());
+    	repository.save(customtask);
+        simpleSourceBean.publishCustomtaskChange(ActionEnum.UPDATED, customtaskId);
+    }
+
+
+	public void updateFinalUrl(String customtaskId, String fileName){
+		Customtask customtask = repository.findById(customtaskId).get();
+		String status = "5";
+
+		customtask.setFinalUrl(fileName)
+					.setStatus(status)
+					.setModifyTime(generateLocalTimeShangHai());
+    	repository.save(customtask);
+        simpleSourceBean.publishCustomtaskChange(ActionEnum.UPDATED, customtaskId);
+    }
+
 
 	public void updateAvailable(String customtaskId, String available){
 		try{
@@ -135,9 +157,7 @@ public class CustomtaskService {
 		customtask.setId(UUID.randomUUID().toString())
 					  .setStatus("1")
 				      .setCreateTime(generateLocalTimeShangHai())
-					  .setContactName(getPreferredUsername())
-					  .setHasTemplate(false)
-					  .setBeTemplate(false);
+					  .setContactName(getPreferredUsername());
         repository.save(customtask);
 		log.debug("Customtask create username is {}", getPreferredUsername());
         simpleSourceBean.publishCustomtaskChange(ActionEnum.CREATED, customtask.getId());
