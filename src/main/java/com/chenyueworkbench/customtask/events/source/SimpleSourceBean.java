@@ -1,12 +1,12 @@
-package com.chenyueworkbench.atomsimple.events.source;
+package com.chenyueworkbench.customtask.events.source;
 
 import org.springframework.cloud.stream.messaging.Source;
 import org.springframework.messaging.support.MessageBuilder;
 import org.springframework.stereotype.Component;
 
-import com.chenyueworkbench.atomsimple.events.model.AtomsimpleChangeModel;
-import com.chenyueworkbench.atomsimple.utils.ActionEnum;
-import com.chenyueworkbench.atomsimple.utils.UserContext;
+import com.chenyueworkbench.customtask.events.model.CustomtaskChangeModel;
+import com.chenyueworkbench.customtask.utils.ActionEnum;
+import com.chenyueworkbench.customtask.utils.UserContext;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -19,12 +19,12 @@ public class SimpleSourceBean {
         this.source = source;
     }
 
-    public void publishAtomsimpleChange(ActionEnum action, String atomsimpleId){
-       log.debug("Sending Kafka message {} for Atomsimple Id: {}", action, atomsimpleId);
-        AtomsimpleChangeModel change =  new AtomsimpleChangeModel(
-                AtomsimpleChangeModel.class.getTypeName(),
+    public void publishCustomtaskChange(ActionEnum action, String customtaskId){
+       log.debug("Sending Kafka message {} for Customtask Id: {}", action, customtaskId);
+        CustomtaskChangeModel change =  new CustomtaskChangeModel(
+                CustomtaskChangeModel.class.getTypeName(),
                 action.toString(),
-                atomsimpleId,
+                customtaskId,
                 UserContext.getCorrelationId(),
                 UserContext.getStarterUserId());
         source.output().send(MessageBuilder.withPayload(change).build());

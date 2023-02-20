@@ -1,4 +1,4 @@
-package com.chenyueworkbench.atomsimple.service;
+package com.chenyueworkbench.customtask.service;
 
 import java.util.Optional;
 import java.util.UUID;
@@ -13,11 +13,12 @@ import java.time.ZoneId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.chenyueworkbench.atomsimple.events.source.SimpleSourceBean;
-import com.chenyueworkbench.atomsimple.model.Atomsimple;
-import com.chenyueworkbench.atomsimple.repository.AtomsimpleRepository;
-import com.chenyueworkbench.atomsimple.utils.ActionEnum;	
-import com.chenyueworkbench.atomsimple.utils.UserContext;
+import com.chenyueworkbench.customtask.events.source.SimpleSourceBean;
+import com.chenyueworkbench.customtask.model.Customtask;
+import com.chenyueworkbench.customtask.repository.CustomtaskRepository;
+import com.chenyueworkbench.customtask.utils.ActionEnum;
+import com.chenyueworkbench.customtask.utils.UserContext;
+
 import org.apache.commons.codec.binary.Base64;
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -28,10 +29,10 @@ import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @Service
-public class AtomsimpleService {
+public class CustomtaskService {
 		
     @Autowired
-    private AtomsimpleRepository repository;
+    private CustomtaskRepository repository;
     
     @Autowired
     SimpleSourceBean simpleSourceBean;
@@ -41,112 +42,112 @@ public class AtomsimpleService {
 
 
 	// get
-	public List<Atomsimple> findByIds(List<String> atomsimpleIds)
+	public List<Customtask> findByIds(List<String> customtaskIds)
 	{
-		return repository.findByIdIn(atomsimpleIds)
+		return repository.findByIdIn(customtaskIds)
 							.stream()
 							.filter(ip -> isAvailable(ip.getAvailable()))
 							.sorted(Comparator.comparing(item -> item.getCreateTime(), Comparator.reverseOrder()))
 							.collect(Collectors.toList());
 	}
 
-    public Atomsimple findById(String atomsimpleId) {
-		Optional<Atomsimple> opt = null;
-		ScopedSpan newSpan = tracer.startScopedSpan("Get atomsimple id from db");
+    public Customtask findById(String customtaskId) {
+		Optional<Customtask> opt = null;
+		ScopedSpan newSpan = tracer.startScopedSpan("Get customtask id from db");
 		try{
-			opt = repository.findById(atomsimpleId);
-			simpleSourceBean.publishAtomsimpleChange(ActionEnum.GET, atomsimpleId);		
+			opt = repository.findById(customtaskId);
+			simpleSourceBean.publishCustomtaskChange(ActionEnum.GET, customtaskId);		
 			if (!opt.isPresent() || !isAvailable(opt.get().getAvailable())) {
-				String message = String.format("Unable to find an atomsimple with the Atomsimple id %s", atomsimpleId);
+				String message = String.format("Unable to find an customtask with the Customtask id %s", customtaskId);
 				log.error(message);
 				throw new IllegalArgumentException(message);	
 			}
-			log.debug(getPreferredUsername() + " retrieving Atomsimple Info: " + opt.get().toString());
+			log.debug(getPreferredUsername() + " retrieving Customtask Info: " + opt.get().toString());
 		}finally{
-			newSpan.tag("atomsimple", "db");
+			newSpan.tag("customtask", "db");
 			newSpan.annotate("Client received");
 			newSpan.finish();
 		}
     	return opt.get();
 	}
 
-	public ArrayList<Atomsimple> getMyList(){
-		ArrayList<Atomsimple> atomsimpleList = new ArrayList<>();
+	public ArrayList<Customtask> getMyList(){
+		ArrayList<Customtask> customtaskList = new ArrayList<>();
 		repository.findAll()
 					.stream()
 					.filter(ip -> isAvailable(ip.getAvailable()))
 					.sorted(Comparator.comparing(item -> item.getCreateTime(), Comparator.reverseOrder()))
-					.forEach(atomsimpleList::add);
-		return atomsimpleList;
+					.forEach(customtaskList::add);
+		return customtaskList;
 	}
 
-	public ArrayList<Atomsimple> findByNameContains(String name){
+	public ArrayList<Customtask> findByNameContains(String name){
 		return repository.findByNameContains(name);
     }
 
 	// update
-    public void update(Atomsimple atomsimple){
-    	repository.save(atomsimple);
-        simpleSourceBean.publishAtomsimpleChange(ActionEnum.UPDATED, atomsimple.getId());
+    public void update(Customtask customtask){
+    	repository.save(customtask);
+        simpleSourceBean.publishCustomtaskChange(ActionEnum.UPDATED, customtask.getId());
     }
 
 
-	public void updateUrl(String atomsimpleId, String fileName){
-		Atomsimple atomsimple = repository.findById(atomsimpleId).get();
+	public void updateUrl(String customtaskId, String fileName){
+		Customtask customtask = repository.findById(customtaskId).get();
 		String status = "3";
 
-		atomsimple.setFileUrl(fileName)
+		customtask.setFileUrl(fileName)
 					  .setStatus(status)
 					  .setModifyTime(generateLocalTimeShangHai());
-    	repository.save(atomsimple);
-        simpleSourceBean.publishAtomsimpleChange(ActionEnum.UPDATED, atomsimpleId);
+    	repository.save(customtask);
+        simpleSourceBean.publishCustomtaskChange(ActionEnum.UPDATED, customtaskId);
     }
 
-	public void updateAvailable(String atomsimpleId, String available){
+	public void updateAvailable(String customtaskId, String available){
 		try{
-			Atomsimple atomsimple = findById(atomsimpleId);
-			atomsimple.setAvailable(available)
+			Customtask customtask = findById(customtaskId);
+			customtask.setAvailable(available)
 						.setModifyTime(generateLocalTimeShangHai());
-			repository.save(atomsimple);
-			simpleSourceBean.publishAtomsimpleChange(ActionEnum.UPDATED, atomsimple.getId());
+			repository.save(customtask);
+			simpleSourceBean.publishCustomtaskChange(ActionEnum.UPDATED, customtask.getId());
 		}catch(Exception e){
 			log.error(e.getMessage());
 		}
 	}
 
-	public String disable(String atomsimpleId){
-		updateAvailable(atomsimpleId, "-1");		
-		String message = String.format("%s, target id disabled!", atomsimpleId);
+	public String disable(String customtaskId){
+		updateAvailable(customtaskId, "-1");		
+		String message = String.format("%s, target id disabled!", customtaskId);
 		return message;
 	}
 
-	public void updateWorker(String atomsimpleId, String workerName){
-		Atomsimple atomsimple = repository.findById(atomsimpleId).get();
-		atomsimple.setWorkerName(workerName)
+	public void updateWorker(String customtaskId, String workerName){
+		Customtask customtask = repository.findById(customtaskId).get();
+		customtask.setWorkerName(workerName)
 				   .setModifyTime(generateLocalTimeShangHai());
-    	repository.save(atomsimple);
-		log.debug("Atomsimple update worker username is {}", getPreferredUsername());
-        simpleSourceBean.publishAtomsimpleChange(ActionEnum.UPDATED, atomsimple.getId());
+    	repository.save(customtask);
+		log.debug("Customtask update worker username is {}", getPreferredUsername());
+        simpleSourceBean.publishCustomtaskChange(ActionEnum.UPDATED, customtask.getId());
     }
 
 	// create
-	public Atomsimple create(Atomsimple atomsimple){
-		atomsimple.setId(UUID.randomUUID().toString())
+	public Customtask create(Customtask customtask){
+		customtask.setId(UUID.randomUUID().toString())
 					  .setStatus("1")
 				      .setCreateTime(generateLocalTimeShangHai())
 					  .setContactName(getPreferredUsername())
 					  .setHasTemplate(false)
 					  .setBeTemplate(false);
-        repository.save(atomsimple);
-		log.debug("Atomsimple create username is {}", getPreferredUsername());
-        simpleSourceBean.publishAtomsimpleChange(ActionEnum.CREATED, atomsimple.getId());
-        return atomsimple;
+        repository.save(customtask);
+		log.debug("Customtask create username is {}", getPreferredUsername());
+        simpleSourceBean.publishCustomtaskChange(ActionEnum.CREATED, customtask.getId());
+        return customtask;
     }
 
 	// delete
-    public void delete(String atomsimpleId){
-    	repository.deleteById(atomsimpleId);
-    	simpleSourceBean.publishAtomsimpleChange(ActionEnum.DELETED, atomsimpleId);
+    public void delete(String customtaskId){
+    	repository.deleteById(customtaskId);
+    	simpleSourceBean.publishCustomtaskChange(ActionEnum.DELETED, customtaskId);
     }
 
 

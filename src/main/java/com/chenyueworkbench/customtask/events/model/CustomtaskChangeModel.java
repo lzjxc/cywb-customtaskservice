@@ -1,22 +1,22 @@
-package com.chenyueworkbench.atomsimple.events.model;
+package com.chenyueworkbench.customtask.events.model;
 
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 
 @Getter @Setter @ToString
-public class AtomsimpleChangeModel {
+public class CustomtaskChangeModel {
 	private String type;
 	private String action;
-	private String atomsimpleId;
+	private String customtaskId;
 	private String correlationId;
 	private String starterUserId;
 
-	public AtomsimpleChangeModel(String type, String action, String atomsimpleId, String correlationId, String starterUserId) {
+	public CustomtaskChangeModel(String type, String action, String customtaskId, String correlationId, String starterUserId) {
 		super();
 		this.type = type;
 		this.action = action;
-		this.atomsimpleId = atomsimpleId;
+		this.customtaskId = customtaskId;
 		this.correlationId = correlationId;
 		this.starterUserId = starterUserId;
 	}

@@ -1,0 +1,37 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: customtaskservice
+  name: customtaskservice
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: customtaskservice
+  template:
+    metadata:
+      labels:
+        app: customtaskservice
+    spec:
+      containers:
+        - env:
+            - name: CONFIGSERVER_PORT
+              value: "8071"
+            - name: CONFIGSERVER_URI
+              value: http://configserver:8071
+            - name: DATABASESERVER_PORT
+              value: "5432"
+            - name: ENCRYPT_KEY
+              value: IMSYMMETRIC
+            - name: PROFILE
+              value: dev
+          image: lzjxccode/customtask-service:0.1.1-test
+          imagePullPolicy: Always
+          name: customtask-service
+          ports:
+            - containerPort: 8110
+      tolerations:
+        - key: mem
+          operator: Equal
+          value: 32g

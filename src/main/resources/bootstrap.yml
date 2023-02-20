@@ -1,6 +1,6 @@
 spring:
     application:
-     name: atomsimple-service
+     name: customtask-service
     profiles:
       active: dev
     cloud:

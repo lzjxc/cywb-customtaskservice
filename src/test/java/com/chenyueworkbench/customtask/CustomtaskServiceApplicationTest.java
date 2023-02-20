@@ -1,11 +1,11 @@
-package com.chenyueworkbench.atomsimple;
+package com.chenyueworkbench.customtask;
 
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class AtomsimpleServiceApplicationTests {
+class CustomtaskServiceApplicationTests {
 
 	@Disabled
 	void contextLoads() {

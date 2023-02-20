@@ -1,4 +1,4 @@
-package com.chenyueworkbench.atomsimple.config;
+package com.chenyueworkbench.customtask.config;
 
 import org.keycloak.adapters.KeycloakConfigResolver;
 import org.keycloak.adapters.springboot.KeycloakSpringBootConfigResolver;

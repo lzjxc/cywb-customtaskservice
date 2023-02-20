@@ -1,4 +1,4 @@
-package com.chenyueworkbench.atomsimple;
+package com.chenyueworkbench.customtask;
 
 import java.util.TimeZone;
 import javax.annotation.PostConstruct;
@@ -12,10 +12,10 @@ import org.springframework.cloud.stream.messaging.Source;
 @SpringBootApplication
 @RefreshScope
 @EnableBinding(Source.class)
-public class AtomsimpleServiceApplication {
+public class CustomtaskServiceApplication {
 	
 	public static void main(String[] args) {
-		SpringApplication.run(AtomsimpleServiceApplication.class, args);
+		SpringApplication.run(CustomtaskServiceApplication.class, args);
 	}
 
 	@PostConstruct

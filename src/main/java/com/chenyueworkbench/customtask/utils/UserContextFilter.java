@@ -1,4 +1,4 @@
-package com.chenyueworkbench.atomsimple.utils;
+package com.chenyueworkbench.customtask.utils;
 
 import org.springframework.stereotype.Component;
 
@@ -26,9 +26,9 @@ public class UserContextFilter implements Filter {
         UserContextHolder.getContext().setCorrelationId(  httpServletRequest.getHeader(UserContext.CORRELATION_ID) );
         UserContextHolder.getContext().setUserId( httpServletRequest.getHeader(UserContext.USER_ID) );
         UserContextHolder.getContext().setAuthToken( httpServletRequest.getHeader(UserContext.AUTH_TOKEN) );
-        UserContextHolder.getContext().setAtomsimpleId( httpServletRequest.getHeader(UserContext.INSIGHTPROJECT_ID) );
+        UserContextHolder.getContext().setCustomtaskId( httpServletRequest.getHeader(UserContext.INSIGHTPROJECT_ID) );
         UserContextHolder.getContext().setStarterUserId(httpServletRequest.getHeader(UserContext.STARTER_USER_ID) );
-        log.debug("Atomsimple Service Incoming Correlation id: {}, StarterUserId: {}" ,UserContextHolder.getContext().getCorrelationId(), UserContextHolder.getContext().getStarterUserId());
+        log.debug("Customtask Service Incoming Correlation id: {}, StarterUserId: {}" ,UserContextHolder.getContext().getCorrelationId(), UserContextHolder.getContext().getStarterUserId());
         filterChain.doFilter(httpServletRequest, servletResponse);
     }
 

@@ -9,13 +9,13 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>com.chenyueworkbench</groupId>
-	<artifactId>atomsimple-service</artifactId>
-	<version>0.0.8-test</version>
-	<name>atomsimple Service</name>
-	<description>atomsimple Service</description>
+	<artifactId>customtask-service</artifactId>
+	<version>0.1.1-test</version>
+	<name>customtask Service</name>
+	<description>customtask Service</description>
 	<properties>
 		<java.version>11</java.version>
-		<docker.atomsimple.prefix>lzjxccode</docker.atomsimple.prefix>
+		<docker.customtask.prefix>lzjxccode</docker.customtask.prefix>
 		<spring-cloud.version>Hoxton.SR1</spring-cloud.version>
 	</properties>
 
@@ -159,13 +159,13 @@
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
 			</plugin>
-			<!-- This plugin is used to create a docker atomsimple and publish the atomsimple to docker hub-->
+			<!-- This plugin is used to create a docker customtask and publish the customtask to docker hub-->
 			<plugin>
 				<groupId>com.spotify</groupId>
 				<artifactId>dockerfile-maven-plugin</artifactId>
 				<version>1.4.13</version>
 				<configuration>
-					<repository>${docker.atomsimple.prefix}/${project.artifactId}</repository>
+					<repository>${docker.customtask.prefix}/${project.artifactId}</repository>
 	                <tag>${project.version}</tag>
 					<buildArgs>
 						<JAR_FILE>target/${project.build.finalName}.jar</JAR_FILE>

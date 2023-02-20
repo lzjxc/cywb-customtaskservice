@@ -1,4 +1,4 @@
-package com.chenyueworkbench.atomsimple.controller;
+package com.chenyueworkbench.customtask.controller;
 
 import javax.annotation.security.RolesAllowed;
 import java.util.HashMap;
@@ -15,37 +15,37 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.chenyueworkbench.atomsimple.model.Atomsimple;
-import com.chenyueworkbench.atomsimple.service.AtomsimpleService;
+import com.chenyueworkbench.customtask.model.Customtask;
+import com.chenyueworkbench.customtask.service.CustomtaskService;
 
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @RestController
-@RequestMapping(value="v1/atomsimple")
-public class AtomsimpleController {
+@RequestMapping(value="v1/customtask")
+public class CustomtaskController {
 		
     @Autowired
-    private AtomsimpleService service;
+    private CustomtaskService service;
 
     
     // get 
     @RolesAllowed({ "ADMIN", "USER", "SUPER", "SUPERADMIN"})
     @RequestMapping(value="/list/my", method = RequestMethod.GET)
-    public ResponseEntity<HashMap<String,Object>> getMyAtomsimpleList() {
+    public ResponseEntity<HashMap<String,Object>> getMyCustomtaskList() {
         return ResponseEntity.ok(createReturnMap(service.getMyList()));
     }
 
     @RolesAllowed({ "ADMIN", "USER","SUPER", "SUPERADMIN" })
-    @RequestMapping(value="/ids/{atomsimpleIds}",method = RequestMethod.GET)
-    public ResponseEntity<HashMap<String,Object>> getAtomsimples( @PathVariable("atomsimpleIds") List<String> atomsimpleIds) {
-        return ResponseEntity.ok(createReturnMap(service.findByIds(atomsimpleIds)));
+    @RequestMapping(value="/ids/{customtaskIds}",method = RequestMethod.GET)
+    public ResponseEntity<HashMap<String,Object>> getCustomtasks( @PathVariable("customtaskIds") List<String> customtaskIds) {
+        return ResponseEntity.ok(createReturnMap(service.findByIds(customtaskIds)));
     }
 
     @RolesAllowed({ "ADMIN", "USER","SUPER","WORKER","WORKERADMIN","SUPERADMIN" })
-    @RequestMapping(value="/{atomsimpleId}",method = RequestMethod.GET)
-    public ResponseEntity<Atomsimple> getAtomsimple( @PathVariable("atomsimpleId") String atomsimpleId) {
-        return ResponseEntity.ok(service.findById(atomsimpleId));
+    @RequestMapping(value="/{customtaskId}",method = RequestMethod.GET)
+    public ResponseEntity<Customtask> getCustomtask( @PathVariable("customtaskId") String customtaskId) {
+        return ResponseEntity.ok(service.findById(customtaskId));
     }
 
     @RolesAllowed({ "USER","ADMIN", "SUPER", "SUPERADMIN"})
@@ -57,32 +57,32 @@ public class AtomsimpleController {
 
     // update
     @RolesAllowed({ "USER","ADMIN", "SUPER", "SUPERADMIN" })
-    @RequestMapping(value="/{atomsimpleId}",method = RequestMethod.PUT)
-    public void updateAtomsimple( @PathVariable("atomsimpleId") String id, @RequestBody Atomsimple atomsimple) {
-        service.update(atomsimple);
+    @RequestMapping(value="/{customtaskId}",method = RequestMethod.PUT)
+    public void updateCustomtask( @PathVariable("customtaskId") String id, @RequestBody Customtask customtask) {
+        service.update(customtask);
     }
 
     @RolesAllowed({ "ADMIN", "USER","SUPER" , "SUPERADMIN"})
-    @RequestMapping(value="/{atomsimpleId}/upload/{fileName}",method = RequestMethod.PUT)
-    public void fileUpload( @PathVariable("atomsimpleId") String id, @PathVariable("fileName") String fileName) {
+    @RequestMapping(value="/{customtaskId}/upload/{fileName}",method = RequestMethod.PUT)
+    public void fileUpload( @PathVariable("customtaskId") String id, @PathVariable("fileName") String fileName) {
         service.updateUrl(id, fileName);
     }
 
     @RolesAllowed({ "SUPER" ,"WORKERADMIN", "SUPERADMIN"})
-    @PutMapping(value="/atomsimpleId/{atomsimpleId}/worker_name/{workerName}")
-    public void UpdateWorkerName( @PathVariable("atomsimpleId") String id, @PathVariable("workerName") String workerName) {
+    @PutMapping(value="/customtaskId/{customtaskId}/worker_name/{workerName}")
+    public void UpdateWorkerName( @PathVariable("customtaskId") String id, @PathVariable("workerName") String workerName) {
         service.updateWorker(id, workerName);
     }
 
     @RolesAllowed({ "ADMIN", "SUPER", "SUPERADMIN"})
-    @PutMapping(value="/atomsimpleId/{atomsimpleId}/disable")
-    public ResponseEntity<HashMap<String, Object>> disableAtomsimple( @PathVariable("atomsimpleId") String id) {
+    @PutMapping(value="/customtaskId/{customtaskId}/disable")
+    public ResponseEntity<HashMap<String, Object>> disableCustomtask( @PathVariable("customtaskId") String id) {
         return ResponseEntity.ok(createReturnMap(service.disable(id)));
     }
 
     // @RolesAllowed({ "ADMIN", "USER","SUPER" , "SUPERADMIN"})
-    // @RequestMapping(value="/{atomsimpleId}/disable",method = RequestMethod.PUT)
-    // public ResponseEntity<HashMap<String, Object>> void fileUpload( @PathVariable("atomsimpleId") String id) {
+    // @RequestMapping(value="/{customtaskId}/disable",method = RequestMethod.PUT)
+    // public ResponseEntity<HashMap<String, Object>> void fileUpload( @PathVariable("customtaskId") String id) {
     //     return ResponseEntity.ok(createReturnMap(service.disable(id)));
         
     // }
@@ -91,17 +91,17 @@ public class AtomsimpleController {
     // create
     @RolesAllowed({ "ADMIN", "USER","SUPER", "SUPERADMIN" })
     @PostMapping
-    public ResponseEntity<HashMap<String, Object>>  saveAtomsimple(@RequestBody Atomsimple atomsimple) {
-    	return ResponseEntity.ok(createReturnMap(service.create(atomsimple)));
+    public ResponseEntity<HashMap<String, Object>>  saveCustomtask(@RequestBody Customtask customtask) {
+    	return ResponseEntity.ok(createReturnMap(service.create(customtask)));
     }
 
 
     // delete
     @RolesAllowed({"SUPER", "SUPERADMIN"})
-    @RequestMapping(value="/{atomsimpleId}",method = RequestMethod.DELETE)
+    @RequestMapping(value="/{customtaskId}",method = RequestMethod.DELETE)
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void deleteAtomsimple( @PathVariable("atomsimpleId") String atomsimpleId) {
-    	service.delete( atomsimpleId );
+    public void deleteCustomtask( @PathVariable("customtaskId") String customtaskId) {
+    	service.delete( customtaskId );
     }
 
 

@@ -1,4 +1,4 @@
-package com.chenyueworkbench.atomsimple.model;
+package com.chenyueworkbench.customtask.model;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -11,12 +11,12 @@ import lombok.experimental.Accessors;
 
 @ToString
 @Entity
-@Table(name = "atomsimples")
+@Table(name = "customtasks")
 @Data
 @Accessors(chain = true)
-public class Atomsimple {
+public class Customtask {
     @Id
-    @Column(name = "atomsimple_id", nullable = false)
+    @Column(name = "customtask_id", nullable = false)
     String id;
 
     String name;
@@ -36,8 +36,8 @@ public class Atomsimple {
     @Column(name = "insight_input")
     String insightInput;
 
-    @Column(name = "atomsimple_remark")
-    String atomsimpleRemark;
+    @Column(name = "customtask_remark")
+    String customtaskRemark;
 
     @Column(name = "audit_remark")
     String auditRemark;

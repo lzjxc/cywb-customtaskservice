@@ -1,5 +1,5 @@
 #stage 1
-#Start with a base atomsimple containing Java runtime
+#Start with a base customtask containing Java runtime
 FROM openjdk:11-slim as build
 
 # Add Maintainer Info
@@ -28,4 +28,4 @@ COPY --from=build ${DEPENDENCY}/META-INF /app/META-INF
 COPY --from=build ${DEPENDENCY}/BOOT-INF/classes /app
 
 #execute the application
-ENTRYPOINT ["java","-cp","app:app/lib/*","com.chenyueworkbench.atomsimple.AtomsimpleServiceApplication"]
+ENTRYPOINT ["java","-cp","app:app/lib/*","com.chenyueworkbench.customtask.CustomtaskServiceApplication"]
