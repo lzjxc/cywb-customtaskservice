@@ -71,13 +71,13 @@ public class CustomtaskController {
     @RolesAllowed({ "ADMIN", "USER","SUPER" , "SUPERADMIN"})
     @RequestMapping(value="/{customtaskId}/upload/task_name/{fileName}",method = RequestMethod.PUT)
     public void taskUpload( @PathVariable("customtaskId") String id, @PathVariable("fileName") String fileName) {
-        service.updateResourceUrl(id, fileName);
+        service.updateTaskUrl(id, fileName);
     }
 
     @RolesAllowed({ "ADMIN", "USER","SUPER" , "SUPERADMIN"})
     @RequestMapping(value="/{customtaskId}/upload/final_name/{fileName}",method = RequestMethod.PUT)
     public void finalUpload( @PathVariable("customtaskId") String id, @PathVariable("fileName") String fileName) {
-        service.updateResourceUrl(id, fileName);
+        service.updateFinalUrl(id, fileName);
     }
 
     @RolesAllowed({ "SUPER" ,"WORKERADMIN", "SUPERADMIN"})
