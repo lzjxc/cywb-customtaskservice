@@ -35,6 +35,13 @@ public class Customtask {
     String industry;
     String brand;
     String kind;
+
+    @Column(name = "worker_hour")
+    String workerHour;
+
+    @Column(name = "final_submit_type")
+    String finalSubmitType;
+    
     String authLevel;
     String remark;
 
