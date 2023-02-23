@@ -104,7 +104,7 @@ public class CustomtaskService {
 
 	public void updateTaskUrl(String customtaskId, String taskUrl){
 		Customtask customtask = repository.findById(customtaskId).get();
-		String status = "8";
+		String status = "4";
 		customtask.setTaskUrl(taskUrl)
 					.setStatus(status)
 					.setModifyTime(generateLocalTimeShangHai());
@@ -154,8 +154,12 @@ public class CustomtaskService {
 
 	// create
 	public Customtask create(Customtask customtask){
+		String status = "4";
+		if (customtask.getResourceUrl() == null || customtask.getResourceUrl().isEmpty()) {
+			status = "1";
+		}
 		customtask.setId(UUID.randomUUID().toString())
-					  .setStatus("1")
+					  .setStatus(status)
 				      .setCreateTime(generateLocalTimeShangHai())
 					  .setContactName(getPreferredUsername());
         repository.save(customtask);
