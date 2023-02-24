@@ -93,7 +93,7 @@ public class CustomtaskService {
 
 	public void updateResourceUrl(String customtaskId, String resourceUrl){
 		Customtask customtask = repository.findById(customtaskId).get();
-		String status = "1";
+		String status = "4";
 
 		customtask.setResourceUrl(resourceUrl)
 					.setStatus(status)
@@ -104,7 +104,7 @@ public class CustomtaskService {
 
 	public void updateTaskUrl(String customtaskId, String taskUrl){
 		Customtask customtask = repository.findById(customtaskId).get();
-		String status = "4";
+		String status = "8";
 		customtask.setTaskUrl(taskUrl)
 					.setStatus(status)
 					.setModifyTime(generateLocalTimeShangHai());
