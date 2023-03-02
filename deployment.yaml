@@ -34,4 +34,4 @@ spec:
       tolerations:
         - key: mem
           operator: Equal
-          value: 4g
+          value: 8g

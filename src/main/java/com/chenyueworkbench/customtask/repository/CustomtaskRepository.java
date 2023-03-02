@@ -16,5 +16,6 @@ public interface CustomtaskRepository extends CrudRepository<Customtask,String> 
     public ArrayList<Customtask> findByContactNameOrLeaderName(String contactName, String leaderName);
     public ArrayList<Customtask> findAll();
     public ArrayList<Customtask> findByNameContains(String key);
+    public ArrayList<Customtask> findByContactNameOrLeaderNameOrWorkerName(String contactName, String leaderName, String workerName);
 }
 

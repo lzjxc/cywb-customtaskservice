@@ -72,13 +72,24 @@ public class CustomtaskService {
 	}
 
 	public ArrayList<Customtask> getMyList(){
-		ArrayList<Customtask> customtaskList = new ArrayList<>();
-		repository.findAll()
-					.stream()
-					.filter(ip -> isAvailable(ip.getAvailable()))
-					.sorted(Comparator.comparing(item -> item.getCreateTime(), Comparator.reverseOrder()))
-					.forEach(customtaskList::add);
-		return customtaskList;
+		String role = getRole();
+		String user_name = getPreferredUsername();
+		ArrayList<Customtask> dataList = new ArrayList<>();
+			if("SUPER".equals(role) || "WORKERADMIN".equals(role) || "SUPERADMIN".equals(role)){
+				repository.findAll()
+							.stream()
+							.filter(it -> isAvailable(it.getAvailable()))
+							.sorted(Comparator.comparing(item -> item.getCreateTime(), Comparator.reverseOrder()))
+							.forEach(dataList::add);
+			}
+			else{
+				repository.findByContactNameOrLeaderNameOrWorkerName(user_name, user_name, user_name)
+							.stream()
+							.filter(it -> isAvailable(it.getAvailable()))
+							.sorted(Comparator.comparing(item -> item.getCreateTime(), Comparator.reverseOrder()))
+							.forEach(dataList::add);
+			}
+		return dataList;
 	}
 
 	public ArrayList<Customtask> findByNameContains(String name){

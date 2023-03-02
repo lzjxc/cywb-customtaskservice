@@ -30,13 +30,13 @@ public class CustomtaskController {
 
     
     // get 
-    @RolesAllowed({ "ADMIN", "USER", "SUPER", "SUPERADMIN"})
+    @RolesAllowed({ "ADMIN", "USER","SUPER", "SUPERADMIN","WORKER","WORKERADMIN"})
     @RequestMapping(value="/list/my", method = RequestMethod.GET)
     public ResponseEntity<HashMap<String,Object>> getMyCustomtaskList() {
         return ResponseEntity.ok(createReturnMap(service.getMyList()));
     }
 
-    @RolesAllowed({ "ADMIN", "USER","SUPER", "SUPERADMIN" })
+    @RolesAllowed({ "ADMIN", "USER","SUPER", "SUPERADMIN","WORKER","WORKERADMIN"  })
     @RequestMapping(value="/ids/{customtaskIds}",method = RequestMethod.GET)
     public ResponseEntity<HashMap<String,Object>> getCustomtasks( @PathVariable("customtaskIds") List<String> customtaskIds) {
         return ResponseEntity.ok(createReturnMap(service.findByIds(customtaskIds)));
@@ -48,7 +48,7 @@ public class CustomtaskController {
         return ResponseEntity.ok(service.findById(customtaskId));
     }
 
-    @RolesAllowed({ "USER","ADMIN", "SUPER", "SUPERADMIN"})
+    @RolesAllowed({ "USER","ADMIN", "SUPER", "SUPERADMIN","WORKER","WORKERADMIN"})
     @RequestMapping(value="/find/{key}", method = RequestMethod.GET)
     public ResponseEntity<HashMap<String,Object>> findByNameContains( @PathVariable("key") String key) {
         return ResponseEntity.ok(createReturnMap(service.findByNameContains(key)));
@@ -56,7 +56,7 @@ public class CustomtaskController {
 
 
     // update
-    @RolesAllowed({ "USER","ADMIN", "SUPER", "SUPERADMIN" })
+    @RolesAllowed({ "USER","ADMIN", "SUPER", "SUPERADMIN" ,"WORKERADMIN"})
     @RequestMapping(value="/{customtaskId}",method = RequestMethod.PUT)
     public void updateCustomtask( @PathVariable("customtaskId") String id, @RequestBody Customtask customtask) {
         service.update(customtask);
@@ -68,7 +68,7 @@ public class CustomtaskController {
         service.updateResourceUrl(id, fileName);
     }
 
-    @RolesAllowed({ "ADMIN", "USER","SUPER" , "SUPERADMIN"})
+    @RolesAllowed({ "ADMIN", "USER","SUPER" , "SUPERADMIN","WORKER","WORKERADMIN"})
     @RequestMapping(value="/{customtaskId}/upload/task_name/{fileName}",method = RequestMethod.PUT)
     public void taskUpload( @PathVariable("customtaskId") String id, @PathVariable("fileName") String fileName) {
         service.updateTaskUrl(id, fileName);
